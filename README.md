@@ -8,6 +8,8 @@ Libraries needed: none
 
 Compile with:
 ```bash
+./build.sh
+# OR
 gcc -o bftoc bftoc.c
 ```
 
