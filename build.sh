@@ -1,1 +1,1 @@
-gcc -o bftoc bftoc.c
+g++ -o bftoc bftoc.cpp

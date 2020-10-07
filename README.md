@@ -1,21 +1,21 @@
 # Brainfuck to C parser
-A very simple (101 lines) brainfuck to C parser.
+A very simple brainfuck to C parser.
 
 ## Compilation
 
-Programs needed: a C compiler
+Programs needed: a C++ compiler<br>
 Libraries needed: none
 
 Compile with:
 ```bash
 ./build.sh
 # OR
-gcc -o bftoc bftoc.c
+g++ -o bftoc bftoc.cpp
 ```
 
 ## Usage
 
-Programs needed: a C compiler
+Programs needed: a C compiler<br>
 Libraries needed: none
 
 Usage:
