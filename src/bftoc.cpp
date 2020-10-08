@@ -1,44 +1,9 @@
 #include <fstream>
 #include <iostream>
-#include <unistd.h>
 #include <tclap/CmdLine.h>
 
-#include "strings.hpp"
 #include "preprocessor.h"
-
-std::string get_block_for_character(char c) {
-    switch (c) {
-        case '+':
-            return cell_increment;
-        case '-':
-            return cell_decrement;
-        case '>':
-            return pointer_increment;
-        case '<':
-            return pointer_decrement;
-        case '[':
-            return loop_begin;
-        case ']':
-            return loop_end;
-        case ',':
-            return char_in;
-        case '.':
-            return char_out;
-        default:
-            return "";
-    }
-}
-
-std::string make_indents(int n) {
-    std::string str;
-
-    // n+1: Account for normal indentation.
-    for (int i = 0; i < n + 1; ++i) {
-        str += "  ";
-    }
-
-    return str;
-}
+#include "processor.h"
 
 int main(int argc, char **argv) {
     std::string in_str;
@@ -90,55 +55,15 @@ int main(int argc, char **argv) {
     ////        Pre-Processing         ////
     ///////////////////////////////////////
 
-    std::string preprocessed_contents = preprocess(in_str);
+    std::string preprocessed_contents = preprocessor::preprocess(in_str);
 
     ///////////////////////////////////////
     ////          Processing           ////
     ///////////////////////////////////////
 
-    std::string count;
+    std::string output = processor::process(preprocessed_contents, pretty_print);
 
-    int open_loop_count = 0;
-
-    if (pretty_print)
-        out_stream << support_code_begin_pretty;
-    else
-        out_stream << support_code_begin;
-
-    for (char &c : preprocessed_contents) {
-
-        if (c > '0' && c < '9') {
-            count += c;
-            continue;
-        }
-
-        if (pretty_print)
-            out_stream << make_indents(open_loop_count - (c == ']' ? 1 : 0));
-
-        if (c == '[') {
-            open_loop_count++;
-
-            if (pretty_print)
-                out_stream << "\n" << make_indents(open_loop_count - 1);
-        } else if (c == ']') {
-            open_loop_count--;
-        }
-
-        out_stream << get_block_for_character(c);
-
-        if (std::string("+-<>").find(c) != std::string::npos)
-            out_stream << count << ';';
-
-        if (pretty_print)
-            out_stream << "\n";
-
-            if (c == ']')
-                out_stream << "\n";
-
-        count = "";
-    }
-
-    out_stream << support_code_end;
+    out_stream << output;
 
     out_stream.close();
 

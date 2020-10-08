@@ -3,7 +3,7 @@
 
 #include "preprocessor.h"
 
-std::string preprocess(const std::string& in) {
+std::string preprocessor::preprocess(const std::string &in) {
     std::stringstream preprocessing_ss;
 
     char last_char = 0;

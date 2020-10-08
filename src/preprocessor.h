@@ -3,6 +3,8 @@
 
 #include <string>
 
-std::string preprocess(const std::string& in);
+namespace preprocessor {
+    std::string preprocess(const std::string &in);
+}
 
 #endif //BFTOC_PREPROCESSOR_H

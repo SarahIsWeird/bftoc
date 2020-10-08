@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.10)
 project(bftoc VERSION 2.1)
 
 # add the executable
-add_executable(bftoc src/bftoc.cpp src/preprocessor.cpp src/preprocessor.h)
+add_executable(bftoc src/bftoc.cpp src/preprocessor.cpp src/preprocessor.h src/processor.cpp src/processor.h)
