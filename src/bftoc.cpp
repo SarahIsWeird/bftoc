@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
 
     bool pretty_print;
 
+    // Command line argument parsing
+
     try {
         TCLAP::CmdLine cmd("(c) 2020 Sarah Klocke.", ' ', "2.1");
 
@@ -35,6 +37,8 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
+    // Opening files to check if they are valid
+
     std::ifstream in_stream(in_path);
 
     if (!in_stream.is_open()) {
@@ -51,17 +55,15 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    ///////////////////////////////////////
-    ////        Pre-Processing         ////
-    ///////////////////////////////////////
+    // Pre-processing
 
     std::string preprocessed_contents = preprocessor::preprocess(in_str);
 
-    ///////////////////////////////////////
-    ////          Processing           ////
-    ///////////////////////////////////////
+    // Processing
 
     std::string output = processor::process(preprocessed_contents, pretty_print);
+
+    // Write results
 
     out_stream << output;
 

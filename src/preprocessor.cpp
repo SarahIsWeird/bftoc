@@ -11,6 +11,9 @@ std::string preprocessor::preprocess(const std::string &in) {
 
     long open_loop_count = 0;
 
+    // Reduce long strings of same character (+++++) to shortened version (5+)
+    // Ignore loops and output, can't be minified in code. (p+=5 works, but not getchar()*5. duh.)
+
     for (char c : in) {
         if (c == '[')
             open_loop_count++;
@@ -22,13 +25,13 @@ std::string preprocessor::preprocess(const std::string &in) {
             continue;
         }
 
-        if (c != 0) {
-            preprocessing_ss << std::to_string(last_char_c) << last_char;
+        preprocessing_ss << std::to_string(last_char_c) << last_char;
 
-            last_char = c;
-            last_char_c = 1;
-        }
+        last_char = c;
+        last_char_c = 1;
     }
+
+    // Loop checks
 
     if (open_loop_count > 0) {
         std::cerr << "You forgot to close " << std::to_string(open_loop_count) << " loop"

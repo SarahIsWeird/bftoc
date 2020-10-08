@@ -50,18 +50,27 @@ std::string processor::process(std::string preprocessed_in, bool pretty_print) {
 
     for (char &c : preprocessed_in) {
 
+        // Add up numbers, might be more than one digit.
+
         if (c > '0' && c < '9') {
             count += c;
             continue;
         }
 
-        if (last_char != '.' && c == '.' && pretty_print)
-            out_stream << "\n";
-        else if (last_char == '.' && c != '.' && pretty_print)
-            out_stream << "\n";
+        // Puts a newline in the front and back of putchar, but only the first/last one of a block.
 
-        if (pretty_print)
+        if (pretty_print) {
+            if (last_char != '.' && c == '.')
+                out_stream << "\n";
+            else if (last_char == '.' && c != '.')
+                out_stream << "\n";
+
+            // Unindent loops properly
+
             out_stream << make_indents(open_loop_count - (c == ']' ? 1 : 0));
+        }
+
+        // Indent loops properly
 
         if (c == '[') {
             open_loop_count++;
@@ -73,6 +82,8 @@ std::string processor::process(std::string preprocessed_in, bool pretty_print) {
         }
 
         out_stream << get_block_for_character(c, pretty_print);
+
+        // Pointer/cell in-/decrements need the count.
 
         if (std::string("+-<>").find(c) != std::string::npos)
             out_stream << count << ';';
